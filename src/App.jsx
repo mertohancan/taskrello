@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
-import initialData from './initialData.js';
+import React from 'react';
 import './App.scss';
 
-function App() {
-  const [ data, setData ] = useState(initialData);
-
-  return (
-    <div>
-      Test
-    </div>
-  );
+const App = () => {
+  return <div>Test</div>;
 };
 
 export default App;
