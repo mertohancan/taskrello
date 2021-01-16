@@ -55,8 +55,6 @@ const StyledButton = styled.button<{ size: string; color: string }>`
 
   border-radius: 3px;
 
-  color: #151a30;
-
   font-size: 15px;
   font-weight: bold;
   justify-content: space-between;
