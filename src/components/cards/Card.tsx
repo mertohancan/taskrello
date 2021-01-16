@@ -1,12 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+
+import FormModal from '../modal/FormModal';
+import TextInput from '../text-inputs/TextInput';
 
 import plusIcon from '../../images/icons/plus.svg';
 
 interface CardProps {
   title: string;
   items?: Array<{ text: string }>;
-  onClick: () => void;
 }
 
 const Container = styled.div`
@@ -70,19 +72,35 @@ const Icon = styled.img`
   margin-right: 10px;
 `;
 
-const Card: FC<CardProps> = ({ title, items, onClick }) => (
-  <Container>
-    <Title>{title}</Title>
-    {items?.map((card) => (
-      <Item>
-        <Text>{card.text}</Text>
-      </Item>
-    ))}
-    <Button onClick={onClick}>
-      <Icon alt="plusIcon" src={plusIcon} />
-      Add a new card
-    </Button>
-  </Container>
-);
+const Card: FC<CardProps> = ({ title, items }) => {
+  const [cardName, setCardName] = useState<string>('');
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const toggleModal = (): void => setShowModal((state) => !state);
+
+  const handleSubmit = (): void => {
+    toggleModal();
+  };
+
+  return (
+    <Container>
+      {showModal ? (
+        <FormModal onClose={toggleModal} onSubmit={handleSubmit}>
+          <TextInput label="Card Name" onChange={setCardName} value={cardName} />
+        </FormModal>
+      ) : null}
+      <Title>{title}</Title>
+      {items?.map((card) => (
+        <Item>
+          <Text>{card.text}</Text>
+        </Item>
+      ))}
+      <Button onClick={toggleModal}>
+        <Icon alt="plusIcon" src={plusIcon} />
+        Add a new card
+      </Button>
+    </Container>
+  );
+};
 
 export default Card;
