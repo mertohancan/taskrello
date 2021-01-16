@@ -1,7 +1,7 @@
 import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 
-import { ButtonSize, ButtonColor } from '../../constant';
+import { ButtonSize, ButtonColor } from '../../constants/constant';
 
 export interface ButtonProps {
   text: string;
@@ -15,13 +15,13 @@ const createButton = (color: string): string => {
   switch (color) {
     case ButtonColor.Primary:
       return `
-        background-color: blue;
+        background-color: #005093;
       `;
     case ButtonColor.Secondary:
       return `
         border: solid 2px black;
         background-color: white;
-        color: blue;
+        color: #005093;
           `;
     default:
       return '';
