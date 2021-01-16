@@ -1,74 +1,73 @@
 {
-    "extends": [
-      "airbnb",
-      "plugin:prettier/recommended",
-      "prettier/react"
-    ],
-    "plugins": [
-      "react-hooks"
-    ],
-    "env": {
-      "browser": true,
-      "commonjs": true,
-      "es6": true,
-      "jest": true,
-      "node": true
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb",
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
+    "prettier/react"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "settings": {
+    "import/parser": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
-    "rules": {
-      "global-require": 0,
-      "react/destructuring-assignment": 0,
-      "import/prefer-default-export": 0,
-      "no-console": 0,
-      "react/prop-types": 0,
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": 0,
-      "no-use-before-define": 0,
-      "react/jsx-props-no-spreading":0,
-      "react/style-prop-object": 0,
-      "no-param-reassign": 0,
-      "jsx-a11y/href-no-hash": [
-        "off"
-      ],
-      "jsx-a11y/label-has-for": [
-        "error",
-        {
-          "required": {
-            "some": [
-              "nesting",
-              "id"
-            ]
-          }
-        }
-      ],
-      "jsx-a11y/label-has-associated-control": [
-        "error",
-        {
-          "assert": "htmlFor"
-        }
-      ],
-      "react/jsx-filename-extension": [
-        "warn",
-        {
-          "extensions": [
-            ".js",
-            ".jsx"
-          ]
-        }
-      ],
-      "max-len": [
-        "warn",
-        {
-          "code": 100,
-          "tabWidth": 2,
-          "comments": 100,
-          "ignoreComments": false,
-          "ignoreTrailingComments": true,
-          "ignoreUrls": true,
-          "ignoreStrings": true,
-          "ignoreTemplateLiterals": true,
-          "ignoreRegExpLiterals": true
-        }
-      ],
-      "comma-dangle": ["error", "only-multiline"]
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
     }
-  } 
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "react/jsx-sort-props": [
+      1,
+      {
+        "shorthandLast": true,
+        "reservedFirst": ["key"]
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      2,
+      {
+        "devDependencies": ["rollup.config.js", "src/utils/**", "**/*.test.tsx", "**/*.test.ts", "**/setupTests.js", "**/*.stories.ts", "**/*.stories.tsx"]
+      }
+    ],
+    "import/extensions": [
+      2,
+      "always",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "@typescript-eslint/indent": "off",
+    "max-len": [
+      2,
+      {
+        "code": 100
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }]
+  }
+}
