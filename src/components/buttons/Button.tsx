@@ -47,7 +47,7 @@ const Icon = styled.img`
   margin-right: 10px;
 `;
 
-const StyledButton = styled.button<{size: string; color: string;}>`
+const StyledButton = styled.button<{ size: string; color: string }>`
   width: ${({ size }) => getButtonWidth(size)};
   height: 40px;
   border: none;
@@ -55,14 +55,14 @@ const StyledButton = styled.button<{size: string; color: string;}>`
 
   border-radius: 3px;
 
-  color: #151A30;
+  color: #151a30;
 
   font-size: 15px;
   font-weight: bold;
   justify-content: space-between;
 
   text-align: center;
-  color: ${({color}) => createButton(color)};
+  color: ${({ color }) => createButton(color)};
   cursor: pointer;
 `;
 
@@ -71,18 +71,12 @@ const Button: FC<ButtonProps> = ({
   onClick,
   color = ButtonColor.Primary,
   size = ButtonSize.Medium,
-  icon
+  icon,
 }) => (
-  <StyledButton
-    color={color}
-    onClick={onClick}
-    size={size}
-    type="button"
-  >
-   {icon ? <Icon alt="icon" src={icon} /> : null}
+  <StyledButton color={color} onClick={onClick} size={size} type="button">
+    {icon ? <Icon alt="icon" src={icon} /> : null}
     {text}
   </StyledButton>
-
 );
 
 export default Button;
