@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import Button from '../buttons/Button';
 
+import { useClearDispatch } from '../../contexts/AppContext';
+
 import homeIcon from '../../images/icons/home.svg';
 
 interface HeaderProps {
@@ -35,14 +37,14 @@ const ProfilePictureWrapper = styled.div`
   align-items: center;
 `;
 
-
-const Header: FC<HeaderProps> = ({profilePicture}) => (
-  <Container>
-    <Button icon={homeIcon} text="TEST BOARD" />
-    {
-      profilePicture ? <ProfilePictureWrapper>{profilePicture}</ProfilePictureWrapper> : null
-    }
-  </Container>
-);
+const Header: FC<HeaderProps> = ({ profilePicture }) => {
+  const dispatch = useClearDispatch();
+  return (
+    <Container>
+      <Button icon={homeIcon} onClick={() => dispatch()} text="TEST BOARD" />
+      {profilePicture ? <ProfilePictureWrapper>{profilePicture}</ProfilePictureWrapper> : null}
+    </Container>
+  );
+};
 
 export default Header;

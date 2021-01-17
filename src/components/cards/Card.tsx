@@ -1,14 +1,29 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
+import { useCardItemDispatch, useRemoveCardItemDispatch } from '../../contexts/AppContext';
+import { ButtonColor, ButtonSize } from '../../constants/constant';
+
 import FormModal from '../modal/FormModal';
 import TextInput from '../text-inputs/TextInput';
+import Button from '../buttons/Button';
 
 import plusIcon from '../../images/icons/plus.svg';
 
-interface CardProps {
+interface CardItem {
+  id: string;
+  text: string;
+  listId?: string;
+}
+
+interface CardItems {
+  id: string;
   title: string;
-  items?: Array<{ text: string }>;
+  cardItems: Array<CardItem>;
+}
+
+interface CardProps {
+  item: CardItems;
 }
 
 const Container = styled.div`
@@ -32,28 +47,18 @@ const Title = styled.div`
   font-family: Arial, Helvetica, sans-serif;
 `;
 
-const Item = styled.div`
-  background-color: white;
-  color: black;
-  border-radius: 10px;
+const ButtonWrapper = styled.div`
   margin: 10px;
-  height: 20px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
 `;
 
-const Text = styled.span`
-  font-family: Arial, Helvetica, sans-serif;
-`;
-
-const Button = styled.button`
+const StyledButton = styled.button`
   width: 100%;
   height: 40px;
   opacity: 0.7;
   border: none;
   outline: none;
   background: none;
+  margin-top: 10px;
 
   border-radius: 3px;
 
@@ -66,39 +71,83 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const ModalMessage = styled.span`
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+`;
+
 const Icon = styled.img`
   width: 14px;
   height: 14px;
   margin-right: 10px;
 `;
 
-const Card: FC<CardProps> = ({ title, items }) => {
-  const [cardName, setCardName] = useState<string>('');
+const Card: FC<CardProps> = ({ item }) => {
+  const dispatch = useCardItemDispatch();
+  const removeDispatch = useRemoveCardItemDispatch();
+
+  const [name, setName] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const [selectedCard, setSelectedCard] = useState<CardItem>();
 
   const toggleModal = (): void => setShowModal((state) => !state);
+  const toggleDeleteModal = (): void => setShowDeleteModal((state) => !state);
 
   const handleSubmit = (): void => {
-    toggleModal();
+    if (!name.length) {
+      setErrorMessage('It can not be empty');
+    } else {
+      dispatch({ id: item.id, text: name });
+      toggleModal();
+    }
+  };
+
+  const handleCardClick = (card: CardItem, listId: string) => (): void => {
+    setShowDeleteModal((state) => !state);
+    setSelectedCard({ ...card, listId });
+  };
+  const handleDelete = (): void => {
+    selectedCard && removeDispatch({ cardId: selectedCard.id, listId: selectedCard.listId });
+    toggleDeleteModal();
   };
 
   return (
     <Container>
       {showModal ? (
         <FormModal onClose={toggleModal} onSubmit={handleSubmit}>
-          <TextInput label="Card Name" onChange={setCardName} value={cardName} />
+          <TextInput
+            errorMessage={errorMessage}
+            label="Card Name"
+            onChange={setName}
+            value={name}
+          />
         </FormModal>
       ) : null}
-      <Title>{title}</Title>
-      {items?.map((card) => (
-        <Item>
-          <Text>{card.text}</Text>
-        </Item>
+      {showDeleteModal ? (
+        <FormModal onClose={toggleDeleteModal} onSubmit={handleDelete}>
+          <ModalMessage>Do you want to delete card?</ModalMessage>
+        </FormModal>
+      ) : null}
+      <Title>{item.title}</Title>
+      {item.cardItems.map((card) => (
+        <ButtonWrapper key={card.id}>
+          <Button
+            color={ButtonColor.Secondary}
+            onClick={handleCardClick(card, item.id)}
+            size={ButtonSize.Large}
+            text={card.text}
+          />
+        </ButtonWrapper>
       ))}
-      <Button onClick={toggleModal}>
+      <StyledButton onClick={toggleModal}>
         <Icon alt="plusIcon" src={plusIcon} />
         Add a new card
-      </Button>
+      </StyledButton>
     </Container>
   );
 };
