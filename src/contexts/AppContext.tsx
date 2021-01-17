@@ -46,6 +46,13 @@ type AppDispatch = (action: Action) => void;
 const AppStateContext = createContext<AppState | undefined>(undefined);
 const AppDispatchContext = createContext<AppDispatch | undefined>(undefined);
 
+const removeCardItem = (list: CardList[], listItemId: string, cardItemId: string): CardList[] => {
+  const arr = [...list];
+  const item = arr.find((listItem) => listItem.id === listItemId);
+  if (item) item.cardItems = item.cardItems.filter((cardItem) => cardItem.id !== cardItemId);
+  return arr;
+};
+
 const appReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case ACTIONS.SET_CARD:
@@ -65,18 +72,8 @@ const appReducer = (state: AppState, action: Action): AppState => {
       }
       return state;
     case ACTIONS.REMOVE_CARD_ITEM:
-      let newData;
-      const selectedList = state.data.find((item) => item.id === action.payload.listId);
-      const removedCard = selectedList?.cardItems.find((item) => item.id === action.payload.cardId);
-      if (selectedList && removedCard) {
-        newData = selectedList.cardItems.filter((card) => card.id !== action.payload.cardId);
-      }
       return {
-        data: [
-          // @ts-ignore
-          { ...selectedList, cardItems: newData },
-          ...state.data.filter((list) => list.id !== selectedList?.id),
-        ],
+        data: removeCardItem(state.data, action.payload.listId || '0', action.payload.cardId),
       };
     case ACTIONS.CLEAR:
       return initialValues;
