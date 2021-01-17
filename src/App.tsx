@@ -48,6 +48,11 @@ const AddList = styled.div`
   width: 220px;
 `;
 
+const ProfilePicture = styled.img`
+  width: 32px;
+  height: 32px;
+`;
+
 const App: FC = () => {
   const appState = useAppState();
   const dispatch = useCardDispatch();
@@ -80,9 +85,7 @@ const App: FC = () => {
           />
         </FormModal>
       ) : null}
-      <Header
-        profilePicture={<img alt="profile" src={headIcon} style={{ width: 32, height: 32 }} />}
-      />
+      <Header profilePicture={<ProfilePicture alt="profile" src={headIcon} />} />
       <AddList>
         <Button
           icon={plusIcon}
