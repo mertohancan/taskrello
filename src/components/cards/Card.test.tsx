@@ -2,18 +2,43 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
+import userEvent from '@testing-library/user-event';
+import AppProvider from '../../contexts/AppContext';
+
 import Card from './Card';
 
-const items = [{ text: 'TODO 1' }];
+const items = { id: '0', title: 'TITLE', cardItems: [{ id: '0', text: 'TODO' }] };
 
 test('renders card title', () => {
-  const { getByText } = render(<Card title="CARD 1" />);
+  const { getByText } = render(
+    <AppProvider>
+      <Card item={items} />
+    </AppProvider>
+  );
 
-  expect(getByText('CARD 1')).toBeInTheDocument();
+  expect(getByText('TITLE')).toBeInTheDocument();
 });
 
 test('renders card items', () => {
-  const { getByText } = render(<Card items={items} title="CARD 1" />);
+  const { getByText } = render(
+    <AppProvider>
+      <Card item={items} />
+    </AppProvider>
+  );
 
-  expect(getByText('TODO 1')).toBeInTheDocument();
+  expect(getByText('TODO')).toBeInTheDocument();
+});
+
+test('opens modal when clicked card', () => {
+  const { getByRole, getByText } = render(
+    <AppProvider>
+      <Card item={items} />
+    </AppProvider>
+  );
+  const card = getByRole('button', { name: 'TODO' });
+  userEvent.click(card);
+
+  const modalMessage = getByText('Do you want to delete card?');
+
+  expect(modalMessage).toBeInTheDocument();
 });
