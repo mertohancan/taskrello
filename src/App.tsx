@@ -18,20 +18,33 @@ const Container = styled.div`
   flex-direction: row;
 `;
 
-const Wrapper = styled.div`
-  margin: 20px;
+const CardContainer = styled.div`
   display: flex;
-  flex-direction: row;
-`;
+  flex-wrap: wrap;
 
-const Cards = styled.div`
-  width: 250px;
-  height: auto;
-  margin: 50px 20px;
+  & > div {
+    box-sizing: border-box;
+    margin: 1rem 0.25em;
+
+    flex: 1;
+    max-width: calc(25% -1em);
+  }
+
+  @media screen and (max-width: '1024px') and (min-width: '768px') {
+    & > div {
+      max-width: calc(50% -1em);
+    }
+  }
+
+  @media screen and (max-width: '767px') {
+    & > div {
+      max-width: 100%;
+    }
+  }
 `;
 
 const AddList = styled.div`
-  margin-top: 70px;
+  margin: 30px;
   width: 220px;
 `;
 
@@ -70,22 +83,20 @@ const App: FC = () => {
       <Header
         profilePicture={<img alt="profile" src={headIcon} style={{ width: 32, height: 32 }} />}
       />
+      <AddList>
+        <Button
+          icon={plusIcon}
+          onClick={toggleModal}
+          size={ButtonSize.Large}
+          text="Add a another list"
+        />
+      </AddList>
       <Container>
-        <Wrapper>
+        <CardContainer>
           {appState.data.map((item) => (
-            <Cards key={item.id}>
-              <Card item={item} />
-            </Cards>
+            <Card item={item} />
           ))}
-        </Wrapper>
-        <AddList>
-          <Button
-            icon={plusIcon}
-            onClick={toggleModal}
-            size={ButtonSize.Large}
-            text="Add a another list"
-          />
-        </AddList>
+        </CardContainer>
       </Container>
     </>
   );
