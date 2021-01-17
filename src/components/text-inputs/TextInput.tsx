@@ -26,7 +26,7 @@ const InputLabel = styled.label<{ labelOnTop: boolean; error: boolean }>`
   user-select: none;
   pointer-events: none;
 
-  color: black;
+  color: ${({ error }) => (error ? 'orange' : 'black')};
 
   ${({ labelOnTop }) =>
     labelOnTop
