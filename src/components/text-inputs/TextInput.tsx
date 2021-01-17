@@ -20,6 +20,7 @@ const InputLabel = styled.label<{ labelOnTop: boolean; error: boolean }>`
   position: absolute;
   z-index: 1;
   top: 14px;
+  font-size: 17px;
   left: 20px;
   font-family: Arial, Helvetica, sans-serif;
   user-select: none;
@@ -44,7 +45,7 @@ const StyledInput = styled.input<{ error: boolean }>`
   width: 100%;
   height: 60px;
   padding: 33px 20px 15px;
-  border: ${({ error }) => (error ? '1px solid red' : '1px solid black')};
+  border: ${({ error }) => (error ? '1px solid orange' : '1px solid black')};
   border-radius: 3px;
 
   color: black;
@@ -53,19 +54,6 @@ const StyledInput = styled.input<{ error: boolean }>`
   font-size: 14px;
   font-weight: bold;
   outline: none;
-
-  &:focus {
-    + ${InputLabel} {
-      top: 14px;
-
-      height: 11px;
-
-      color: #99a1ae;
-
-      font-size: 12px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-  }
 `;
 
 const InputError = styled.p`
@@ -73,9 +61,9 @@ const InputError = styled.p`
   margin-left: 5px;
   margin-top: 8px;
 
-  color: ${({ theme }) => theme.palette.butterscotch};
+  color: orange;
 
-  ${({ theme }) => `font-family: ${theme.fonts.GothamLight};`}
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 400;
 `;
