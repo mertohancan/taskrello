@@ -49,14 +49,14 @@ const Actions = styled.div`
 interface Props {
   onClose: () => void;
   onSubmit: () => void;
-  children: ReactElement;
+  children?: ReactElement;
 }
 
 const FormModal: FC<Props> = ({ onClose, onSubmit, children }) => {
   const { refElement } = useClickOutside(onClose);
   return (
     <Overlay>
-      <Container ref={refElement as RefObject<HTMLDivElement>}>
+      <Container ref={refElement as RefObject<HTMLDivElement>} role="dialog">
         {children}
         <Actions>
           <Button color={ButtonColor.Primary} onClick={onSubmit} text="Ok" />
