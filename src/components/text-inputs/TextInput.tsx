@@ -27,17 +27,6 @@ const InputLabel = styled.label<{ labelOnTop: boolean; error: boolean }>`
   pointer-events: none;
 
   color: ${({ error }) => (error ? 'orange' : 'black')};
-
-  ${({ labelOnTop }) =>
-    labelOnTop
-      ? `
-    top: 14px;
-    font-size: 12px;
-    font-weight: 400;
-    height: 11px;`
-      : `
-    font-weight: bold;
-    `}
 `;
 
 const StyledInput = styled.input<{ error: boolean }>`
@@ -54,6 +43,15 @@ const StyledInput = styled.input<{ error: boolean }>`
   font-size: 14px;
   font-weight: bold;
   outline: none;
+
+  &:focus {
+    + ${InputLabel} {
+      top: 14px;
+      font-size: 12px;
+      font-weight: 400;
+      height: 11px;
+    }
+  }
 `;
 
 const InputError = styled.p`
